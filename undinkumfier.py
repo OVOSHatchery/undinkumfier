@@ -133,5 +133,14 @@ if __name__ == "__main__":
             dedinkumfi.export(output)
         except Exception as e:
             print(folder, e)
+            # TODO - fallback + commonXXX skills support
+            # query-wolfram-alpha.mark2 MycroftSkill class import not found
+            # query-duck-duck-go.mark2 MycroftSkill class import not found
+            # support.mark2 Not a dinkum skill!  <- ??????
+            # query-wiki.mark2 MycroftSkill class import not found
+            # news.mark2 MycroftSkill class import not found
+            # play-music.mark2 MycroftSkill class import not found
+            # fallback-unknown.mark2 MycroftSkill class import not found
+            # fallback-query.mark2 MycroftSkill class import not found
             continue
 
