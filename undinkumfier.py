@@ -26,6 +26,8 @@ class DeDinkumFier:
             raise ValueError("CommonQuerySkill not yet supported")
         if "MycroftSkill" not in self.code:
             raise ValueError("MycroftSkill class import not found")
+        if "get_pantacor_device_id" in self.code:
+            raise ValueError("this skill is tied to pantacor")
         self.fix_imports()
         self.fix_skill_id_init()
         self.fix_classes()
