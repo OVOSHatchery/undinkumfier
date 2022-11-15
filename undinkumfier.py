@@ -18,8 +18,16 @@ class DeDinkumFier:
     def fix(self):
         if not self.is_dinkum:
             raise RuntimeError("Not a dinkum skill!")
+        if "CommonPlaySkill" in self.code:
+            raise ValueError("CommonPlaySkill not yet supported")
+        if "FallbackSkill" in self.code:
+            raise ValueError("FallbackSkill not yet supported")
+        if "CommonQuerySkill" in self.code:
+            raise ValueError("CommonQuerySkill not yet supported")
         if "MycroftSkill" not in self.code:
             raise ValueError("MycroftSkill class import not found")
+        if "get_pantacor_device_id" in self.code:
+            raise ValueError("this skill is tied to pantacor")
         self.fix_imports()
         self.fix_skill_id_init()
         self.fix_classes()
@@ -134,13 +142,14 @@ if __name__ == "__main__":
         except Exception as e:
             print(folder, e)
             # TODO - fallback + commonXXX skills support
-            # query-wolfram-alpha.mark2 MycroftSkill class import not found
-            # query-duck-duck-go.mark2 MycroftSkill class import not found
-            # support.mark2 Not a dinkum skill!  <- ??????
-            # query-wiki.mark2 MycroftSkill class import not found
-            # news.mark2 MycroftSkill class import not found
-            # play-music.mark2 MycroftSkill class import not found
-            # fallback-unknown.mark2 MycroftSkill class import not found
-            # fallback-query.mark2 MycroftSkill class import not found
+            # query-wolfram-alpha.mark2 CommonQuerySkill not yet supported
+            # query-duck-duck-go.mark2 CommonQuerySkill not yet supported
+            # support.mark2 Not a dinkum skill! <- ?????
+            # query-wiki.mark2 CommonQuerySkill not yet supported
+            # news.mark2 CommonPlaySkill not yet supported
+            # play-music.mark2 CommonPlaySkill not yet supported
+            # fallback-unknown.mark2 FallbackSkill not yet supported
+            # play-radio.mark2 CommonPlaySkill not yet supported
+            # fallback-query.mark2 FallbackSkill not yet supported
             continue
 
