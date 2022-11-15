@@ -1,3 +1,6 @@
+import shutil
+
+
 class DeDinkumFier:
     def __init__(self, skill_folder):
         self.path = skill_folder
@@ -107,25 +110,28 @@ class DeDinkumFier:
                 self.lines[idx] = l
         self.lines.insert(import_start, "from ovos_workshop.skills.dinkum import GuiClear, UnDinkumSkill, SkillControl, MessageSend")
 
+    def export(self, output_path):
+        self.fix()
+        shutil.copytree(self.path, output_path, dirs_exist_ok=True)
+        with open(f"{output_path}/__init__.py", "w") as f:
+            f.write(self.code)
+
 
 if __name__ == "__main__":
     import os
-    skills = "/path/to/mycroft-dinkum/skills"
+    from os.path import dirname
+
+    skills = f"{dirname(__file__)}/test/skills"
     for folder in os.listdir(skills):
-        if folder in ["query-wolfram-alpha.mark2",
-                      "query-duck-duck-go.mark2",
-                      "support.mark2",
-                      "query-wiki.mark2",
-                      "news.mark2",
-                      "play-music.mark2",
-                      "fallback-unknown.mark2",
-                      "fallback-query.mark2"]:
-            continue
         dedinkumfi = DeDinkumFier(f"{skills}/{folder}")
-        print(folder, dedinkumfi.is_dinkum)
+
+        # output = f"/tmp/exported_dinkum/{folder.replace('.mark2', '.undinkum')}"
+        output = f"{dirname(__file__)}/test/out/{folder.replace('.mark2', '.undinkum')}"
+        os.makedirs(output, exist_ok=True)
+
         try:
-            dedinkumfi.fix()
+            dedinkumfi.export(output)
         except Exception as e:
             print(folder, e)
             continue
-        print(dedinkum.code)  # TODO write to new folder util
+
