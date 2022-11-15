@@ -28,6 +28,7 @@ class DeDinkumFier:
             raise ValueError("MycroftSkill class import not found")
         if "get_pantacor_device_id" in self.code:
             raise ValueError("this skill is tied to pantacor")
+        self.fix_regex()
         self.fix_imports()
         self.fix_skill_id_init()
         self.fix_classes()
@@ -50,6 +51,17 @@ class DeDinkumFier:
                     b = b.split(")", 1)[-1]
                     self.lines[idx] = a+b
             if "def" in l:
+                in_intent = False
+
+    def fix_regex(self):
+        in_intent = False
+        for idx, l in enumerate(self.lines):
+            if "@intent_handler(" in l:
+                in_intent = True
+            if in_intent and ".rx" in l:
+                # TODO - convert to adapt intent or something
+                raise ValueError("this skill uses pure regex intents")
+            if ")" in l:
                 in_intent = False
 
     def fix_skill_id_init(self):
